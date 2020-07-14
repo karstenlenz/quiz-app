@@ -26,5 +26,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# Own ignores
+# Custom ignores
 node_modules
+.code-workspace
