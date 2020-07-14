@@ -1,7 +1,7 @@
 .card {
   border: 1px solid black;
   border-radius: 5px;
-  box-shadow: 5px 5px 5px 5px grey;
+  box-shadow: 3px 3px 7px 1px grey;
   padding: 15px;
   margin-bottom: 40px;
 }
@@ -26,19 +26,20 @@
 .card__bookmark--inactive {
 }
 
-.card__taglist {
+.tag-list {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   padding: 0;
 }
 
-.card__taglist > li {
+.tag-list > li {
   list-style: none;
   font-size: 0.875 em;
   padding: 5px;
-  border: 1px solid black;
-  background-color: cornflowerblue;
+  // border: 1px solid black;
+  border-radius: 16px;
+  background-color: #aaa;
 }
 
 .footer__icon {
@@ -58,6 +59,13 @@
 
 .form__input-wrapper {
   width: 100%;
+}
+
+.profile {
+  align-items: center;
+}
+
+.form__input-text {
 }
 
 @import './utility';
