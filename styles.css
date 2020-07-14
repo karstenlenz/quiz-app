@@ -76,10 +76,11 @@ label {
   padding: 15px;
   margin-bottom: 40px;
 }
-.ribbon {
+.card__bookmark {
   padding: 0;
   margin-right: 0;
   margin-top: -20px;
+  margin-bottom: -40px;
   width: 0px;
   height: 48px;
   background-color: transparent;
@@ -90,14 +91,20 @@ label {
   cursor: pointer;
 }
 
-.tag-list {
+.card__bookmark--active {
+}
+
+.card__bookmark--inactive {
+}
+
+.card__taglist {
   display: flex;
   flex-wrap: wrap;
   gap: 15px;
   padding: 0;
 }
 
-.tag {
+.card__tag {
   list-style: none;
   font-size: 0.875 em;
   padding: 5px;
