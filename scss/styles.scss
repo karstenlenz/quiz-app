@@ -1,4 +1,9 @@
+.header__headline {
+  margin-top: 7px;
+}
+
 .card {
+  position: relative;
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 3px 3px 7px 1px grey;
@@ -6,52 +11,53 @@
   margin-bottom: 40px;
 }
 .card__bookmark {
-  padding: 0;
-  margin-right: 0;
-  margin-top: -20px;
-  margin-bottom: -40px;
-  width: 0px;
+  position: absolute;
+  right: 15px;
+  top: -8px;
   height: 48px;
+  width: 48px;
   background-color: transparent;
-  border: solid 24px #b13a22;
-  border-bottom: solid 15px transparent;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  cursor: pointer;
-}
 
-.card__bookmark--active {
-}
+  &--active {
+    color: black;
+    fill: red;
+  }
 
-.card__bookmark--inactive {
-  border-right-color: #aaa;
-  border-top-color: #aaa;
-  border-left-color: #aaa;
+  &--inactive {
+    color: grey;
+    fill: transparent;
+  }
 }
 
 .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  // gap: 15px; Only works in Firefox.
   padding: 0;
 }
 
 .tag-list > li {
   list-style: none;
   font-size: 0.875 em;
-  padding: 5px;
+  padding: 5px 10px;
   // border: 1px solid black;
   border-radius: 16px;
   background-color: #aaa;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
 
 .footer__icon {
   line-height: 1;
-}
+  width: 32px;
 
-.footer__icon--active {
-  filter: invert(1);
-  background-color: white;
+  &--active {
+    filter: invert(1);
+    background-color: white;
+    border-radius: 50%;
+    width: 40px;
+    padding: 2px;
+  }
 }
 
 .form {
@@ -66,6 +72,14 @@
 
 .profile {
   align-items: center;
+
+  &__picture {
+    border-radius: 50%;
+  }
+
+  &__user-name {
+    font-size: 1.2em;
+  }
 }
 
 .form__input-text {
