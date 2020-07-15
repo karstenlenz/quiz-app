@@ -1,5 +1,5 @@
 .header__headline {
-  margin-top: 7px;
+  margin-top: 10px;
 }
 
 .card {
@@ -7,40 +7,31 @@
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 3px 3px 7px 1px grey;
-  padding: 15px;
-  margin-bottom: 40px;
-}
-.card__bookmark {
-  position: absolute;
-  right: 15px;
-  top: -8px;
-  height: 48px;
-  width: 48px;
-  background-color: transparent;
 
-  &--active {
-    color: black;
-    fill: red;
+  &__bookmark {
+    position: absolute;
+    right: 15px;
+    top: -8px;
+    height: 48px;
+    width: 48px;
+    background-color: transparent;
+
+    &--active {
+      color: black;
+      fill: red;
+    }
+
+    &--inactive {
+      color: grey;
+      fill: transparent;
+    }
   }
-
-  &--inactive {
-    color: grey;
-    fill: transparent;
-  }
 }
 
-.tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  // gap: 15px; Only works in Firefox.
-  padding: 0;
-}
-
-.tag-list > li {
+li {
   list-style: none;
   font-size: 0.875 em;
   padding: 5px 10px;
-  // border: 1px solid black;
   border-radius: 16px;
   background-color: #aaa;
   margin-bottom: 10px;
@@ -61,8 +52,6 @@
 }
 
 .form {
-  display: flex;
-  flex-wrap: wrap;
   justify-content: stretch;
 }
 
@@ -72,6 +61,7 @@
 
 .profile {
   align-items: center;
+  gap: 15px;
 
   &__picture {
     border-radius: 50%;
@@ -80,9 +70,6 @@
   &__user-name {
     font-size: 1.2em;
   }
-}
-
-.form__input-text {
 }
 
 @import './utility';
