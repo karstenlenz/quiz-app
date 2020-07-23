@@ -77,10 +77,13 @@ function changeHeadline(string) {
 }
 
 function hideAllPages() {
-  pageIndex.classList.add('d-none');
-  pageBookmark.classList.add('d-none');
-  pageCreate.classList.add('d-none');
-  pageProfile.classList.add('d-none');
+  var pages = document.querySelectorAll('main');
+  pages.forEach(function (page) {
+    return page.classList.add('d-none');
+  }); // pageIndex.classList.add('d-none')
+  // pageBookmark.classList.add('d-none')
+  // pageCreate.classList.add('d-none')
+  // pageProfile.classList.add('d-none')
 } // bookmark toggle
 
 
