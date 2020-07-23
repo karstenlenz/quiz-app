@@ -24,6 +24,7 @@ const navIndex = get('.nav__index')
 const navCreate = get('.nav__create')
 const navProfile = get('.nav__profile')
 
+// bookmarks
 const bookmarks = getAll('.card__bookmark')
 
 // Add Event Listeners

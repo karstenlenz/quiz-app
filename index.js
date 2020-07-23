@@ -20,7 +20,8 @@ var navLinks = getAll('nav > div');
 var navBookmark = get('.nav__bookmarks');
 var navIndex = get('.nav__index');
 var navCreate = get('.nav__create');
-var navProfile = get('.nav__profile');
+var navProfile = get('.nav__profile'); // bookmarks
+
 var bookmarks = getAll('.card__bookmark'); // Add Event Listeners
 
 navIndex.addEventListener('click', showPage(pageIndex, 'Quiz-App'));
