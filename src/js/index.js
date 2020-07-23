@@ -1,9 +1,11 @@
+//pages
 const pageIndex = get('.page--index')
 const pageBookmark = get('.page--bookmarks')
 const pageCreate = get('.page--create')
 const pageProfile = get('.page--profile')
 const headline = get('h1')
 
+// answer
 const buttonAnswer = get('.card__button--answer1')
 const answer = get('.card__answer1')
 
@@ -11,6 +13,7 @@ const answer = get('.card__answer1')
 const inputsForm = getAll('textarea,input')
 const form = get('.form')
 
+// for darkmode
 const buttonDark = get('.darkmode')
 const styleSheet = get('.stylesheet')
 
@@ -29,7 +32,15 @@ navBookmark.addEventListener('click', showPage(pageBookmark, 'Bookmarks'))
 navCreate.addEventListener('click', showPage(pageCreate, 'Create'))
 navProfile.addEventListener('click', showPage(pageProfile, 'Profile'))
 
-buttonDark.addEventListener('click', () => (styleSheet.href = 'dark.css'))
+buttonDark.addEventListener('click', () => {
+  if (buttonDark.textContent === 'Dark Mode') {
+    styleSheet.href = 'dark.css'
+    buttonDark.textContent = 'Light Mode'
+  } else {
+    styleSheet.href = 'styles.css'
+    buttonDark.textContent = 'Dark Mode'
+  }
+})
 
 buttonAnswer.addEventListener('click', () => {
   answer.classList.toggle('d-none')
@@ -40,20 +51,23 @@ buttonAnswer.addEventListener('click', () => {
   }
 })
 
-bookmarks.forEach((element) =>
-  element.addEventListener('click', () => toggleBookmarkActive(element))
-)
-
 form.addEventListener('submit', (event) => {
   event.preventDefault()
   resetForm()
 })
 
+bookmarks.forEach((element) =>
+  element.addEventListener('click', () => toggleBookmarkActive(element))
+)
+
 // functions
 
+// form
 function resetForm() {
   inputsForm.forEach((element) => (element.value = ''))
 }
+
+//Navigation functions
 function showPage(pageName, headline) {
   return () => {
     hideAllPages()
@@ -73,17 +87,19 @@ function hideAllPages() {
   pageProfile.classList.add('d-none')
 }
 
+// bookmark toggle
+function toggleBookmarkActive(element) {
+  element.classList.toggle('card__bookmark--active')
+  element.classList.toggle('card__bookmark--inactive')
+}
+
+// get functions
 function get(selector) {
   return document.querySelector(selector)
 }
 
 function getAll(selector) {
   return document.querySelectorAll(selector)
-}
-
-function toggleBookmarkActive(element) {
-  element.classList.toggle('card__bookmark__active')
-  element.classList.toggle('card__bookmark--inactive')
 }
 
 //  function switchPage(pageName) {
