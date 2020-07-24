@@ -1,15 +1,25 @@
-import { get, getAll } from './util'
+import { getAll } from './util'
 
 export function initializeCard() {
   // get elements
-  const bookmarks = getAll('.card__bookmark')
-  const buttonAnswer = get('.card__button--answer1')
-  const answer = get('.card__answer1')
+  const buttonsAnswer = getAll('.card__button--answer')
+  const cards = getAll('.card')
 
   // add event listener
-  bookmarks.forEach((element) =>
-    element.addEventListener('click', () => toggleBookmarkActive(element))
-  )
+  cards.forEach((element) => {
+    const bookmark = element.querySelector('.card__bookmark')
+    bookmark.addEventListener('click', () => toggleBookmarkActive(bookmark))
+    const buttonAnswer = element.querySelector('.card__button--answer')
+    buttonAnswer.addEventListener('click', () => {
+      const answer = element.querySelector('.card__answer')
+      answer.classList.toggle('d-none')
+      if (buttonAnswer.textContent === 'Show answer') {
+        buttonAnswer.textContent = 'Hide answer'
+      } else {
+        buttonAnswer.textContent = 'Show answer'
+      }
+    })
+  })
 
   // bookmark toggle
   function toggleBookmarkActive(element) {
@@ -18,12 +28,15 @@ export function initializeCard() {
   }
 
   // answer toggle
-  buttonAnswer.addEventListener('click', () => {
-    answer.classList.toggle('d-none')
-    if (buttonAnswer.textContent === 'Show answer') {
-      buttonAnswer.textContent = 'Hide answer'
-    } else {
-      buttonAnswer.textContent = 'Show answer'
-    }
-  })
+  // buttonsAnswer.forEach((element) => {
+  //   element.addEventListener('click', () => {
+  //     const answer = element.nextElementSibling
+  //     answer.classList.toggle('d-none')
+  //     if (answer.textContent === 'Show answer') {
+  //       element.textContent = 'Hide answer'
+  //     } else {
+  //       element.textContent = 'Show answer'
+  //     }
+  //   })
+  // })
 }

@@ -208,13 +208,24 @@ var _util = require("./util");
 
 function initializeCard() {
   // get elements
-  var bookmarks = (0, _util.getAll)('.card__bookmark');
-  var buttonAnswer = (0, _util.get)('.card__button--answer1');
-  var answer = (0, _util.get)('.card__answer1'); // add event listener
+  var buttonsAnswer = (0, _util.getAll)('.card__button--answer');
+  var cards = (0, _util.getAll)('.card'); // add event listener
 
-  bookmarks.forEach(function (element) {
-    return element.addEventListener('click', function () {
-      return toggleBookmarkActive(element);
+  cards.forEach(function (element) {
+    var bookmark = element.querySelector('.card__bookmark');
+    bookmark.addEventListener('click', function () {
+      return toggleBookmarkActive(bookmark);
+    });
+    var buttonAnswer = element.querySelector('.card__button--answer');
+    buttonAnswer.addEventListener('click', function () {
+      var answer = element.querySelector('.card__answer');
+      answer.classList.toggle('d-none');
+
+      if (buttonAnswer.textContent === 'Show answer') {
+        buttonAnswer.textContent = 'Hide answer';
+      } else {
+        buttonAnswer.textContent = 'Show answer';
+      }
     });
   }); // bookmark toggle
 
@@ -222,17 +233,18 @@ function initializeCard() {
     element.classList.toggle('card__bookmark--active');
     element.classList.toggle('card__bookmark--inactive');
   } // answer toggle
+  // buttonsAnswer.forEach((element) => {
+  //   element.addEventListener('click', () => {
+  //     const answer = element.nextElementSibling
+  //     answer.classList.toggle('d-none')
+  //     if (answer.textContent === 'Show answer') {
+  //       element.textContent = 'Hide answer'
+  //     } else {
+  //       element.textContent = 'Show answer'
+  //     }
+  //   })
+  // })
 
-
-  buttonAnswer.addEventListener('click', function () {
-    answer.classList.toggle('d-none');
-
-    if (buttonAnswer.textContent === 'Show answer') {
-      buttonAnswer.textContent = 'Hide answer';
-    } else {
-      buttonAnswer.textContent = 'Show answer';
-    }
-  });
 }
 },{"./util":"src/js/util.js"}],"src/js/darkmode.js":[function(require,module,exports) {
 "use strict";
@@ -244,24 +256,23 @@ exports.initializeDarkMode = initializeDarkMode;
 
 var _util = require("./util");
 
-var _card = require("./card");
-
 function initializeDarkMode() {
   // get elements
   var buttonDark = (0, _util.get)('.darkmode');
-  var styleSheet = (0, _util.get)('.stylesheet'); // add event listener
+  var styleSheet = (0, _util.get)('.stylesheet');
+  var styleSheetURL = styleSheet.href; // add event listener
 
   buttonDark.addEventListener('click', function () {
     if (buttonDark.textContent === 'Dark Mode') {
       styleSheet.href = 'dark.css';
       buttonDark.textContent = 'Light Mode';
     } else {
-      styleSheet.href = 'styles.css';
+      styleSheet.href = styleSheetURL;
       buttonDark.textContent = 'Dark Mode';
     }
   });
 }
-},{"./util":"src/js/util.js","./card":"src/js/card.js"}],"src/js/form.js":[function(require,module,exports) {
+},{"./util":"src/js/util.js"}],"src/js/form.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

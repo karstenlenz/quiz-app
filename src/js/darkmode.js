@@ -1,10 +1,10 @@
 import { get, getAll } from './util'
-import { initializeBookmark } from './card'
 
 export function initializeDarkMode() {
   // get elements
   const buttonDark = get('.darkmode')
   const styleSheet = get('.stylesheet')
+  const styleSheetURL = styleSheet.href
 
   // add event listener
   buttonDark.addEventListener('click', () => {
@@ -12,7 +12,7 @@ export function initializeDarkMode() {
       styleSheet.href = 'dark.css'
       buttonDark.textContent = 'Light Mode'
     } else {
-      styleSheet.href = 'styles.css'
+      styleSheet.href = styleSheetURL
       buttonDark.textContent = 'Dark Mode'
     }
   })
