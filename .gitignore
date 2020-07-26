@@ -29,3 +29,5 @@ Temporary Items
 # Custom ignores
 node_modules
 .code-workspace
+.cache
+.vscode

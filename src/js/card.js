@@ -26,17 +26,4 @@ export function initializeCard() {
     element.classList.toggle('card__bookmark--active')
     element.classList.toggle('card__bookmark--inactive')
   }
-
-  // answer toggle
-  // buttonsAnswer.forEach((element) => {
-  //   element.addEventListener('click', () => {
-  //     const answer = element.nextElementSibling
-  //     answer.classList.toggle('d-none')
-  //     if (answer.textContent === 'Show answer') {
-  //       element.textContent = 'Hide answer'
-  //     } else {
-  //       element.textContent = 'Show answer'
-  //     }
-  //   })
-  // })
 }
