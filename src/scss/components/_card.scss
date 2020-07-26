@@ -3,6 +3,9 @@
   border: 1px solid black;
   border-radius: 5px;
   box-shadow: 3px 3px 7px 1px grey;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  // transform: translateX(0);
 
   &__bookmark {
     position: absolute;
@@ -22,4 +25,21 @@
       fill: transparent;
     }
   }
+}
+
+.card--fade-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.card--fade-out {
+  opacity: 0;
+}
+
+.card:nth-of-type(odd) {
+  // transform: translateX(-90%);
+}
+
+.card:nth-of-type(even) {
+  // transform: translateX(90%);
 }

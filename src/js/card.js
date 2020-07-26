@@ -1,9 +1,10 @@
-import { getAll } from './util'
+import { get, getAll, isElementInViewport } from './util'
 
 export function initializeCard() {
   // get elements
   const buttonsAnswer = getAll('.card__button--answer')
   const cards = getAll('.card')
+  const mains = getAll('main')
 
   // add event listener
   cards.forEach((element) => {
@@ -26,4 +27,19 @@ export function initializeCard() {
     element.classList.toggle('card__bookmark--active')
     element.classList.toggle('card__bookmark--inactive')
   }
+
+  function fadeInOnScroll() {
+    cards.forEach((card) => {
+      if (isElementInViewport(card)) {
+        card.classList.add('card--fade-in')
+      } else {
+        card.classList.remove('card--fade-in')
+      }
+    })
+  }
+
+  mains.forEach((el) => {
+    el.addEventListener('load', fadeInOnScroll)
+    el.addEventListener('scroll', fadeInOnScroll)
+  })
 }

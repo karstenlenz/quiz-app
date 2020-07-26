@@ -125,6 +125,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.get = get;
 exports.getAll = getAll;
+exports.isElementInViewport = isElementInViewport;
 
 // get functions
 function get(selector) {
@@ -133,6 +134,13 @@ function get(selector) {
 
 function getAll(selector) {
   return document.querySelectorAll(selector);
+}
+
+function isElementInViewport(element) {
+  var rect = element.getBoundingClientRect();
+  return (// rect.top >= 0 &&
+    rect.left >= 0 && rect.bottom + 0 <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  );
 }
 },{}],"src/js/navigation.js":[function(require,module,exports) {
 "use strict";
@@ -209,7 +217,8 @@ var _util = require("./util");
 function initializeCard() {
   // get elements
   var buttonsAnswer = (0, _util.getAll)('.card__button--answer');
-  var cards = (0, _util.getAll)('.card'); // add event listener
+  var cards = (0, _util.getAll)('.card');
+  var mains = (0, _util.getAll)('main'); // add event listener
 
   cards.forEach(function (element) {
     var bookmark = element.querySelector('.card__bookmark');
@@ -233,6 +242,21 @@ function initializeCard() {
     element.classList.toggle('card__bookmark--active');
     element.classList.toggle('card__bookmark--inactive');
   }
+
+  function fadeInOnScroll() {
+    cards.forEach(function (card) {
+      if ((0, _util.isElementInViewport)(card)) {
+        card.classList.add('card--fade-in');
+      } else {
+        card.classList.remove('card--fade-in');
+      }
+    });
+  }
+
+  mains.forEach(function (el) {
+    el.addEventListener('load', fadeInOnScroll);
+    el.addEventListener('scroll', fadeInOnScroll);
+  });
 }
 },{"./util":"src/js/util.js"}],"src/js/darkmode.js":[function(require,module,exports) {
 "use strict";
@@ -323,7 +347,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65481" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53768" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
