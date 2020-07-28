@@ -1,62 +1,73 @@
+import { state } from './index'
 import { get, getAll } from './util'
 
+const headline = get('h1')
+// Pages
+const pageIndex = get('[data-js="pageIndex"')
+const pageBookmarks = get('[data-js="pageBookmarks"')
+const pageCreate = get('[data-js="pageCreate"')
+const pageProfile = get('[data-js="pageProfile"')
+
+// Navigation links
+
+const navBookmarks = get('[data-js="navBookmarks"')
+const navIndex = get('[data-js="navIndex"')
+const navCreate = get('[data-js="navCreate"')
+const navProfile = get('[data-js="navProfile"')
+
+const iconsFooter = getAll('.footer__icon')
+
+export function showPage(pageName, headline, icon) {
+  return () => {
+    hideAllPages()
+    pageName.classList.remove('d-none')
+    changeHeadline(headline)
+    iconsFooter.forEach((el) => el.classList.remove('footer__icon--active'))
+    icon.querySelector('.footer__icon').classList.add('footer__icon--active')
+    state.pageName = pageName
+    state.headline = headline
+    state.icon = icon
+    history.pushState(null, null, `${headline}.html`)
+    console.log(state)
+  }
+}
+
+export function render(pageName) {
+  switch (pageName) {
+    case 'pageIndex':
+      console.log('index')
+      break
+    case 'pageBookmarks':
+      console.log('bookmarks')
+      break
+    case 'pageCreate':
+      console.log('create')
+      break
+    case 'pageProfile':
+      console.log('profile')
+      break
+  }
+}
+
+function hideAllPages() {
+  const pages = document.querySelectorAll('main')
+  pages.forEach((page) => page.classList.add('d-none'))
+}
+
+function changeHeadline(string) {
+  headline.textContent = string
+}
+
 export function initializeNav() {
-  // Pages
-  const pageIndex = get('.page--index')
-  const pageBookmark = get('.page--bookmarks')
-  const pageCreate = get('.page--create')
-  const pageProfile = get('.page--profile')
-  const headline = get('h1')
-
-  // Navigation links
-  const navLinks = getAll('nav > div')
-  const navBookmark = get('.nav__bookmarks')
-  const navIndex = get('.nav__index')
-  const navCreate = get('.nav__create')
-  const navProfile = get('.nav__profile')
-
-  const iconsFooter = getAll('.footer__icon')
-
   // Add Event Listeners
   navIndex.addEventListener('click', showPage(pageIndex, 'Quiz-App', navIndex))
-  navBookmark.addEventListener(
+  navBookmarks.addEventListener(
     'click',
-    showPage(pageBookmark, 'Bookmarks', navBookmark)
+    showPage(pageBookmarks, 'Bookmarks', navBookmarks)
   )
   navCreate.addEventListener('click', showPage(pageCreate, 'Create', navCreate))
   navProfile.addEventListener(
     'click',
     showPage(pageProfile, 'Profile', navProfile)
   )
-
-  //Navigation functions
-  function showPage(pageName, headline, icon) {
-    return () => {
-      hideAllPages()
-      pageName.classList.remove('d-none')
-      changeHeadline(headline)
-      iconsFooter.forEach((el) => el.classList.remove('footer__icon--active'))
-      icon.querySelector('.footer__icon').classList.add('footer__icon--active')
-    }
-  }
-
-  function changeHeadline(string) {
-    headline.textContent = string
-  }
-
-  function hideAllPages() {
-    const pages = document.querySelectorAll('main')
-    pages.forEach((page) => page.classList.add('d-none'))
-  }
-
-  // functions
-
-  //  function switchPage(pageName) {
-  //    return () => {
-  //      navLinks.forEach(
-  //        element.classList.add('d-none')
-  //        pageName.classList.remove('d-none')
-  //      )
-  //  }
-  //  }
 }

@@ -15,10 +15,12 @@
     <header>
       <h1 class="header__headline">Quiz-App</h1>
     </header>
-    <main class="p-15 page--index">
-
-    </main>
-    <main class="p-15 page--bookmarks d-none">
+    <main data-js="pageIndex" data-name="index" class="p-15 page--index"></main>
+    <main
+      data-js="pageBookmarks"
+      data-name="bookmarks"
+      class="p-15 page--bookmarks d-none"
+    >
       <section class="card p-15 mb-40">
         <a href="#"
           ><svg
@@ -45,7 +47,12 @@
           consequuntur dolore quidem. Rem!
         </p>
         <button class="card__button--answer p-10">Show answer</button>
-        <p class ="card__answer d-none">Answer: Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, dicta atque pariatur quisquam eveniet fuga quo, a eius vitae dolorem quam eos dolore blanditiis et illum velit neque explicabo, optio nulla ut reiciendis? Reprehenderit.</p>
+        <p class="card__answer d-none">
+          Answer: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Aperiam, dicta atque pariatur quisquam eveniet fuga quo, a eius vitae
+          dolorem quam eos dolore blanditiis et illum velit neque explicabo,
+          optio nulla ut reiciendis? Reprehenderit.
+        </p>
 
         <ul class="p-0 d-flex-wrap">
           <li>HTML</li>
@@ -80,7 +87,12 @@
           consequuntur dolore quidem. Rem!
         </p>
         <button class="card__button--answer p-10">Show answer</button>
-        <p class ="card__answer d-none">Answer: Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, dicta atque pariatur quisquam eveniet fuga quo, a eius vitae dolorem quam eos dolore blanditiis et illum velit neque explicabo, optio nulla ut reiciendis? Reprehenderit.</p>
+        <p class="card__answer d-none">
+          Answer: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Aperiam, dicta atque pariatur quisquam eveniet fuga quo, a eius vitae
+          dolorem quam eos dolore blanditiis et illum velit neque explicabo,
+          optio nulla ut reiciendis? Reprehenderit.
+        </p>
 
         <ul class="p-0 d-flex-wrap">
           <li>lorem</li>
@@ -115,7 +127,12 @@
           consequuntur dolore quidem. Rem!
         </p>
         <button class="card__button--answer p-10">Show answer</button>
-        <p class ="card__answer d-none">Answer: Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam, dicta atque pariatur quisquam eveniet fuga quo, a eius vitae dolorem quam eos dolore blanditiis et illum velit neque explicabo, optio nulla ut reiciendis? Reprehenderit.</p>
+        <p class="card__answer d-none">
+          Answer: Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Aperiam, dicta atque pariatur quisquam eveniet fuga quo, a eius vitae
+          dolorem quam eos dolore blanditiis et illum velit neque explicabo,
+          optio nulla ut reiciendis? Reprehenderit.
+        </p>
 
         <ul class="p-0 d-flex-wrap">
           <li>lorem</li>
@@ -125,7 +142,11 @@
         </ul>
       </section>
     </main>
-    <main class="p-15 page--create d-none">
+    <main
+      data-js="pageCreate"
+      data-name="create"
+      class="p-15 page--create d-none"
+    >
       <form action="" class="form">
         <div class="form__input-wrapper d-flex-wrap mb-40">
           <label for="question" class="form__label">Question</label>
@@ -161,7 +182,11 @@
         <button class="form__button p-10 mb-40">Submit</button>
       </form>
     </main>
-    <main class="profile p-15 d-flex-wrap page--profile d-none">
+    <main
+      data-js="pageProfile"
+      data-name="profile"
+      class="profile p-15 d-flex-wrap page--profile d-none"
+    >
       <img
         src="https://source.unsplash.com/collection/1953210/200x200"
         alt="Profile picture"
@@ -181,31 +206,30 @@
           <li class>Skill2</li>
           <li class>Skill3</li>
           <li class>Skill4</li>
+        </ul>
       </div>
-      </ul>
       <button class="p-10 mb-40 darkmode">Dark Mode</button>
       <button class="p-10 mb-40">Logout</button>
     </main>
     <footer class="footer">
-      <nav class = "footer__nav">
-        <div class = "nav__index"
-          ><img
+      <nav class="footer__nav">
+        <div data-js="navIndex">
+          <img
             src="img/home.svg"
             alt="Home"
             class="footer__icon footer__icon--active"
-        /></div>
-        <div class="nav__bookmarks"
-          ><img src="img/bookmark.svg" alt="Bookmarks" class="footer__icon"
-        /></div>
-        <div class ="nav__create"
-          ><img src="img/plus-square.svg" alt="Create" class="footer__icon"
-        /></div>
-        <div class ="nav__profile"
-          ><img src="img/user.svg" alt="Profile" class="footer__icon"
-        /></div>
+          />
+        </div>
+        <div data-js="navBookmarks">
+          <img src="img/bookmark.svg" alt="Bookmarks" class="footer__icon" />
+        </div>
+        <div data-js="navCreate">
+          <img src="img/plus-square.svg" alt="Create" class="footer__icon" />
+        </div>
+        <div data-js="navProfile">
+          <img src="img/user.svg" alt="Profile" class="footer__icon" />
+        </div>
       </nav>
     </footer>
   </body>
 </html>
-
-

@@ -150,63 +150,83 @@ function isElementInViewport(element) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.showPage = showPage;
+exports.render = render;
 exports.initializeNav = initializeNav;
+
+var _index = require("./index");
 
 var _util = require("./util");
 
-function initializeNav() {
-  // Pages
-  var pageIndex = (0, _util.get)('.page--index');
-  var pageBookmark = (0, _util.get)('.page--bookmarks');
-  var pageCreate = (0, _util.get)('.page--create');
-  var pageProfile = (0, _util.get)('.page--profile');
-  var headline = (0, _util.get)('h1'); // Navigation links
+var headline = (0, _util.get)('h1'); // Pages
 
-  var navLinks = (0, _util.getAll)('nav > div');
-  var navBookmark = (0, _util.get)('.nav__bookmarks');
-  var navIndex = (0, _util.get)('.nav__index');
-  var navCreate = (0, _util.get)('.nav__create');
-  var navProfile = (0, _util.get)('.nav__profile');
-  var iconsFooter = (0, _util.getAll)('.footer__icon'); // Add Event Listeners
+var pageIndex = (0, _util.get)('[data-js="pageIndex"');
+var pageBookmarks = (0, _util.get)('[data-js="pageBookmarks"');
+var pageCreate = (0, _util.get)('[data-js="pageCreate"');
+var pageProfile = (0, _util.get)('[data-js="pageProfile"'); // Navigation links
 
-  navIndex.addEventListener('click', showPage(pageIndex, 'Quiz-App', navIndex));
-  navBookmark.addEventListener('click', showPage(pageBookmark, 'Bookmarks', navBookmark));
-  navCreate.addEventListener('click', showPage(pageCreate, 'Create', navCreate));
-  navProfile.addEventListener('click', showPage(pageProfile, 'Profile', navProfile)); //Navigation functions
+var navBookmarks = (0, _util.get)('[data-js="navBookmarks"');
+var navIndex = (0, _util.get)('[data-js="navIndex"');
+var navCreate = (0, _util.get)('[data-js="navCreate"');
+var navProfile = (0, _util.get)('[data-js="navProfile"');
+var iconsFooter = (0, _util.getAll)('.footer__icon');
 
-  function showPage(pageName, headline, icon) {
-    return function () {
-      hideAllPages();
-      pageName.classList.remove('d-none');
-      changeHeadline(headline);
-      iconsFooter.forEach(function (el) {
-        return el.classList.remove('footer__icon--active');
-      });
-      icon.querySelector('.footer__icon').classList.add('footer__icon--active');
-    };
-  }
-
-  function changeHeadline(string) {
-    headline.textContent = string;
-  }
-
-  function hideAllPages() {
-    var pages = document.querySelectorAll('main');
-    pages.forEach(function (page) {
-      return page.classList.add('d-none');
+function showPage(pageName, headline, icon) {
+  return function () {
+    hideAllPages();
+    pageName.classList.remove('d-none');
+    changeHeadline(headline);
+    iconsFooter.forEach(function (el) {
+      return el.classList.remove('footer__icon--active');
     });
-  } // functions
-  //  function switchPage(pageName) {
-  //    return () => {
-  //      navLinks.forEach(
-  //        element.classList.add('d-none')
-  //        pageName.classList.remove('d-none')
-  //      )
-  //  }
-  //  }
-
+    icon.querySelector('.footer__icon').classList.add('footer__icon--active');
+    _index.state.pageName = pageName;
+    _index.state.headline = headline;
+    _index.state.icon = icon;
+    history.pushState(null, null, "".concat(headline, ".html"));
+    console.log(_index.state);
+  };
 }
-},{"./util":"src/js/util.js"}],"data/content.json":[function(require,module,exports) {
+
+function render(pageName) {
+  switch (pageName) {
+    case 'pageIndex':
+      console.log('index');
+      break;
+
+    case 'pageBookmarks':
+      console.log('bookmarks');
+      break;
+
+    case 'pageCreate':
+      console.log('create');
+      break;
+
+    case 'pageProfile':
+      console.log('profile');
+      break;
+  }
+}
+
+function hideAllPages() {
+  var pages = document.querySelectorAll('main');
+  pages.forEach(function (page) {
+    return page.classList.add('d-none');
+  });
+}
+
+function changeHeadline(string) {
+  headline.textContent = string;
+}
+
+function initializeNav() {
+  // Add Event Listeners
+  navIndex.addEventListener('click', showPage(pageIndex, 'Quiz-App', navIndex));
+  navBookmarks.addEventListener('click', showPage(pageBookmarks, 'Bookmarks', navBookmarks));
+  navCreate.addEventListener('click', showPage(pageCreate, 'Create', navCreate));
+  navProfile.addEventListener('click', showPage(pageProfile, 'Profile', navProfile));
+}
+},{"./index":"src/js/index.js","./util":"src/js/util.js"}],"data/content.json":[function(require,module,exports) {
 module.exports = {
   "cardContent": [{
     "question": "1 What is the lorem ipsum, dolor sit?",
@@ -260,7 +280,8 @@ function createCards() {
   function createCard(_ref) {
     var question = _ref.question,
         answer = _ref.answer,
-        tags = _ref.tags;
+        _ref$tags = _ref.tags,
+        tags = _ref$tags === void 0 ? [] : _ref$tags;
     var card = document.createElement('section');
     card.className = 'card p-15 mb-40';
     card.innerHTML =
@@ -372,6 +393,11 @@ function initializeForm() {
 },{"./util":"src/js/util.js"}],"src/js/index.js":[function(require,module,exports) {
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.state = void 0;
+
 var _navigation = require("./navigation");
 
 var _card = require("./card");
@@ -385,6 +411,26 @@ var _form = require("./form");
 (0, _card.initializeCard)();
 (0, _darkmode.initializeDarkMode)();
 (0, _form.initializeForm)();
+var state = {
+  pageName: '',
+  headline: '',
+  icon: ''
+};
+exports.state = state;
+
+function timeMachine(state) {
+  (0, _navigation.showPage)(state.pageName, state.headline, state.icon);
+}
+
+history.replaceState(state, null, '');
+
+window.onpopstate = function (event) {
+  if (event.state) {
+    exports.state = state = event.state;
+  }
+
+  timeMachine(state); // See example render function in summary below
+};
 },{"./navigation":"src/js/navigation.js","./card":"src/js/card.js","./darkmode":"src/js/darkmode.js","./form":"src/js/form.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -413,7 +459,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58026" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63706" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

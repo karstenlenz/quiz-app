@@ -8,7 +8,7 @@ export function createCards() {
 
   cardContent.forEach(createCard)
 
-  function createCard({ question, answer, tags }) {
+  function createCard({ question, answer, tags = [] }) {
     const card = document.createElement('section')
     card.className = 'card p-15 mb-40'
     card.innerHTML = /*html*/ `
