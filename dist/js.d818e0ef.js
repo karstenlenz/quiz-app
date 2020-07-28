@@ -129,17 +129,19 @@ exports.isElementInViewport = isElementInViewport;
 
 // get functions
 function get(selector) {
-  return document.querySelector(selector);
+  var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+  return target.querySelector(selector);
 }
 
 function getAll(selector) {
-  return document.querySelectorAll(selector);
+  var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
+  return target.querySelectorAll(selector);
 }
 
 function isElementInViewport(element) {
   var rect = element.getBoundingClientRect();
   return (// rect.top >= 0 &&
-    rect.left >= 0 && rect.bottom + 0 <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    rect.top + 150 <= (window.innerHeight || document.documentElement.clientHeight)
   );
 }
 },{}],"src/js/navigation.js":[function(require,module,exports) {
@@ -204,21 +206,84 @@ function initializeNav() {
   //  }
 
 }
-},{"./util":"src/js/util.js"}],"src/js/card.js":[function(require,module,exports) {
+},{"./util":"src/js/util.js"}],"data/content.json":[function(require,module,exports) {
+module.exports = {
+  "cardContent": [{
+    "question": "1 What is the lorem ipsum, dolor sit?",
+    "answer": "1 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
+    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+  }, {
+    "question": "2 What is the lorem ipsum, dolor sit?",
+    "answer": "2 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
+    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+  }, {
+    "question": "3 What is the lorem ipsum, dolor sit?",
+    "answer": "3 The answer is Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
+    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+  }, {
+    "question": "4 What is the lorem ipsum, dolor sit?",
+    "answer": "4 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
+    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+  }, {
+    "question": "5 What is the lorem ipsum, dolor sit?",
+    "answer": "5 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
+    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+  }, {
+    "question": "6 What is the lorem ipsum, dolor sit?",
+    "answer": "6 The answer is Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
+    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+  }]
+};
+},{}],"src/js/card.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.createCards = createCards;
 exports.initializeCard = initializeCard;
 
 var _util = require("./util");
+
+var data = _interopRequireWildcard(require("../../data/content.json"));
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+var cardContent = data.cardContent;
+
+function createCards() {
+  var main = (0, _util.get)('main');
+  cardContent.forEach(createCard);
+
+  function createCard(_ref) {
+    var question = _ref.question,
+        answer = _ref.answer,
+        tags = _ref.tags;
+    var card = document.createElement('section');
+    card.className = 'card p-15 mb-40';
+    card.innerHTML =
+    /*html*/
+    "\n    <a href=\"#\"\n    ><svg\n      class=\"card__bookmark card__bookmark--active\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      width=\"24\"\n      height=\"24\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      stroke-width=\"2\"\n      stroke-linecap=\"round\"\n      stroke-linejoin=\"round\"\n      class=\"feather feather-bookmark\"\n    >\n      <path d=\"M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"></path>\n    </svg>\n  </a>\n  <h2>Question</h2>\n  <p>\n  ".concat(question, "\n  </p>\n  <button class=\"card__button--answer p-10\">Show answer</button>\n  <p class =\"card__answer d-none\">").concat(answer, "</p>\n  <ul class=\"p-0 d-flex-wrap\">\n \n  </ul>  \n    ");
+    main.appendChild(card); //create Tags
+
+    var tagTarget = (0, _util.get)('ul', card);
+    tags.forEach(function (tag) {
+      var tagEl = document.createElement('li');
+      tagTarget.appendChild(tagEl);
+      tagEl.textContent = tag;
+    });
+  }
+}
 
 function initializeCard() {
   // get elements
   var buttonsAnswer = (0, _util.getAll)('.card__button--answer');
   var cards = (0, _util.getAll)('.card');
-  var mains = (0, _util.getAll)('main'); // add event listener
+  var mains = (0, _util.getAll)('main'); // to show cards before first scroll
+
+  fadeInWhenInViewport(); // add event listener
 
   cards.forEach(function (element) {
     var bookmark = element.querySelector('.card__bookmark');
@@ -243,7 +308,7 @@ function initializeCard() {
     element.classList.toggle('card__bookmark--inactive');
   }
 
-  function fadeInOnScroll() {
+  function fadeInWhenInViewport() {
     cards.forEach(function (card) {
       if ((0, _util.isElementInViewport)(card)) {
         card.classList.add('card--fade-in');
@@ -254,11 +319,11 @@ function initializeCard() {
   }
 
   mains.forEach(function (el) {
-    el.addEventListener('load', fadeInOnScroll);
-    el.addEventListener('scroll', fadeInOnScroll);
+    el.addEventListener('load', fadeInWhenInViewport);
+    el.addEventListener('scroll', fadeInWhenInViewport);
   });
 }
-},{"./util":"src/js/util.js"}],"src/js/darkmode.js":[function(require,module,exports) {
+},{"./util":"src/js/util.js","../../data/content.json":"data/content.json"}],"src/js/darkmode.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -315,6 +380,7 @@ var _darkmode = require("./darkmode");
 
 var _form = require("./form");
 
+(0, _card.createCards)();
 (0, _navigation.initializeNav)();
 (0, _card.initializeCard)();
 (0, _darkmode.initializeDarkMode)();
@@ -347,7 +413,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53768" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58026" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -79,7 +79,8 @@ header {
 
 main {
   grid-area: main;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -102,6 +103,7 @@ button {
   color: white;
   margin: 0 auto;
   border-radius: 5px;
+  border: none;
 }
 
 label {
@@ -126,7 +128,7 @@ li {
   list-style: none;
   font-size: 0.875 em;
   padding: 5px 10px;
-  border-radius: 16px;
+  border-radius: 20px;
   background-color: #aaa;
   margin-bottom: 10px;
   margin-right: 10px;
@@ -165,9 +167,9 @@ li {
   position: relative;
   border: 1px solid black;
   border-radius: 5px;
-  box-shadow: 3px 3px 7px 1px grey;
+  box-shadow: 3px 3px 4px #dde;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 .card__bookmark {
   position: absolute;
@@ -178,21 +180,25 @@ li {
   background-color: transparent;
 }
 .card__bookmark--active {
-  color: black;
-  fill: crimson;
+  color: #111122;
+  fill: #dc453d;
 }
 .card__bookmark--inactive {
   color: grey;
   fill: transparent;
 }
 
-.card--fade-in {
-  opacity: 1;
-  transform: translateX(0);
+.card:nth-of-type(odd) {
+  transform: translateX(-90%);
 }
 
-.card--fade-out {
-  opacity: 0;
+.card:nth-of-type(even) {
+  transform: translateX(90%);
+}
+
+.card.card--fade-in {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .form {

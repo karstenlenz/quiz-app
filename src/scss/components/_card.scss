@@ -2,9 +2,10 @@
   position: relative;
   border: 1px solid black;
   border-radius: 5px;
-  box-shadow: 3px 3px 7px 1px grey;
+  box-shadow: 3px 3px 4px #dde;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+
   // transform: translateX(0);
 
   &__bookmark {
@@ -16,8 +17,8 @@
     background-color: transparent;
 
     &--active {
-      color: black;
-      fill: crimson;
+      color: #111122;
+      fill: #dc453d;
     }
 
     &--inactive {
@@ -26,20 +27,19 @@
     }
   }
 }
+.card:nth-of-type(odd) {
+  transform: translateX(-90%);
+}
 
-.card--fade-in {
+.card:nth-of-type(even) {
+  transform: translateX(90%);
+}
+
+.card.card--fade-in {
   opacity: 1;
   transform: translateX(0);
 }
 
-.card--fade-out {
-  opacity: 0;
-}
-
-.card:nth-of-type(odd) {
-  // transform: translateX(-90%);
-}
-
-.card:nth-of-type(even) {
-  // transform: translateX(90%);
-}
+// .card--fade-out {
+//   opacity: 0;
+// }
