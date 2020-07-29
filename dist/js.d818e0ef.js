@@ -144,89 +144,7 @@ function isElementInViewport(element) {
     rect.top + 150 <= (window.innerHeight || document.documentElement.clientHeight)
   );
 }
-},{}],"src/js/navigation.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.showPage = showPage;
-exports.render = render;
-exports.initializeNav = initializeNav;
-
-var _index = require("./index");
-
-var _util = require("./util");
-
-var headline = (0, _util.get)('h1'); // Pages
-
-var pageIndex = (0, _util.get)('[data-js="pageIndex"');
-var pageBookmarks = (0, _util.get)('[data-js="pageBookmarks"');
-var pageCreate = (0, _util.get)('[data-js="pageCreate"');
-var pageProfile = (0, _util.get)('[data-js="pageProfile"'); // Navigation links
-
-var navBookmarks = (0, _util.get)('[data-js="navBookmarks"');
-var navIndex = (0, _util.get)('[data-js="navIndex"');
-var navCreate = (0, _util.get)('[data-js="navCreate"');
-var navProfile = (0, _util.get)('[data-js="navProfile"');
-var iconsFooter = (0, _util.getAll)('.footer__icon');
-
-function showPage(pageName, headline, icon) {
-  return function () {
-    hideAllPages();
-    pageName.classList.remove('d-none');
-    changeHeadline(headline);
-    iconsFooter.forEach(function (el) {
-      return el.classList.remove('footer__icon--active');
-    });
-    icon.querySelector('.footer__icon').classList.add('footer__icon--active');
-    _index.state.pageName = pageName;
-    _index.state.headline = headline;
-    _index.state.icon = icon;
-    history.pushState(null, null, "".concat(headline, ".html"));
-    console.log(_index.state);
-  };
-}
-
-function render(pageName) {
-  switch (pageName) {
-    case 'pageIndex':
-      console.log('index');
-      break;
-
-    case 'pageBookmarks':
-      console.log('bookmarks');
-      break;
-
-    case 'pageCreate':
-      console.log('create');
-      break;
-
-    case 'pageProfile':
-      console.log('profile');
-      break;
-  }
-}
-
-function hideAllPages() {
-  var pages = document.querySelectorAll('main');
-  pages.forEach(function (page) {
-    return page.classList.add('d-none');
-  });
-}
-
-function changeHeadline(string) {
-  headline.textContent = string;
-}
-
-function initializeNav() {
-  // Add Event Listeners
-  navIndex.addEventListener('click', showPage(pageIndex, 'Quiz-App', navIndex));
-  navBookmarks.addEventListener('click', showPage(pageBookmarks, 'Bookmarks', navBookmarks));
-  navCreate.addEventListener('click', showPage(pageCreate, 'Create', navCreate));
-  navProfile.addEventListener('click', showPage(pageProfile, 'Profile', navProfile));
-}
-},{"./index":"src/js/index.js","./util":"src/js/util.js"}],"data/content.json":[function(require,module,exports) {
+},{}],"data/content.json":[function(require,module,exports) {
 module.exports = {
   "cardContent": [{
     "question": "1 What is the lorem ipsum, dolor sit?",
@@ -261,7 +179,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createCards = createCards;
-exports.initializeCard = initializeCard;
+exports.cardContent = void 0;
 
 var _util = require("./util");
 
@@ -271,80 +189,273 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
+// get elements
 var cardContent = data.cardContent;
+exports.cardContent = cardContent;
+var main = (0, _util.get)('main');
 
 function createCards() {
-  var main = (0, _util.get)('main');
   cardContent.forEach(createCard);
-
-  function createCard(_ref) {
-    var question = _ref.question,
-        answer = _ref.answer,
-        _ref$tags = _ref.tags,
-        tags = _ref$tags === void 0 ? [] : _ref$tags;
-    var card = document.createElement('section');
-    card.className = 'card p-15 mb-40';
-    card.innerHTML =
-    /*html*/
-    "\n    <a href=\"#\"\n    ><svg\n      class=\"card__bookmark card__bookmark--active\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      width=\"24\"\n      height=\"24\"\n      viewBox=\"0 0 24 24\"\n      fill=\"none\"\n      stroke=\"currentColor\"\n      stroke-width=\"2\"\n      stroke-linecap=\"round\"\n      stroke-linejoin=\"round\"\n      class=\"feather feather-bookmark\"\n    >\n      <path d=\"M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"></path>\n    </svg>\n  </a>\n  <h2>Question</h2>\n  <p>\n  ".concat(question, "\n  </p>\n  <button class=\"card__button--answer p-10\">Show answer</button>\n  <p class =\"card__answer d-none\">").concat(answer, "</p>\n  <ul class=\"p-0 d-flex-wrap\">\n \n  </ul>  \n    ");
-    main.appendChild(card); //create Tags
-
-    var tagTarget = (0, _util.get)('ul', card);
-    tags.forEach(function (tag) {
-      var tagEl = document.createElement('li');
-      tagTarget.appendChild(tagEl);
-      tagEl.textContent = tag;
-    });
-  }
 }
 
-function initializeCard() {
-  // get elements
-  var buttonsAnswer = (0, _util.getAll)('.card__button--answer');
-  var cards = (0, _util.getAll)('.card');
-  var mains = (0, _util.getAll)('main'); // to show cards before first scroll
+function createCard(_ref) {
+  var question = _ref.question,
+      answer = _ref.answer,
+      _ref$tags = _ref.tags,
+      tags = _ref$tags === void 0 ? [] : _ref$tags;
+  var card = document.createElement('section');
+  card.className = 'card p-15 mb-40';
+  card.innerHTML =
+  /*html*/
+  "\n  <a href=\"#\"\n  ><svg\n    class=\"card__bookmark card__bookmark--active\"\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"feather feather-bookmark\"\n  >\n    <path d=\"M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"></path>\n  </svg>\n</a>\n<h2>Question</h2>\n<p>\n".concat(question, "\n</p>\n<button class=\"card__button--answer p-10\">Show answer</button>\n<p class =\"card__answer d-none\">").concat(answer, "</p>\n<ul class=\"p-0 d-flex-wrap\">\n\n</ul>");
+  main.appendChild(card); //create Tags
 
-  fadeInWhenInViewport(); // add event listener
-
-  cards.forEach(function (element) {
-    var bookmark = element.querySelector('.card__bookmark');
-    bookmark.addEventListener('click', function () {
-      return toggleBookmarkActive(bookmark);
-    });
-    var buttonAnswer = element.querySelector('.card__button--answer');
-    buttonAnswer.addEventListener('click', function () {
-      var answer = element.querySelector('.card__answer');
-      answer.classList.toggle('d-none');
-
-      if (buttonAnswer.textContent === 'Show answer') {
-        buttonAnswer.textContent = 'Hide answer';
-      } else {
-        buttonAnswer.textContent = 'Show answer';
-      }
-    });
-  }); // bookmark toggle
-
-  function toggleBookmarkActive(element) {
-    element.classList.toggle('card__bookmark--active');
-    element.classList.toggle('card__bookmark--inactive');
-  }
-
-  function fadeInWhenInViewport() {
-    cards.forEach(function (card) {
-      if ((0, _util.isElementInViewport)(card)) {
-        card.classList.add('card--fade-in');
-      } else {
-        card.classList.remove('card--fade-in');
-      }
-    });
-  }
-
-  mains.forEach(function (el) {
-    el.addEventListener('load', fadeInWhenInViewport);
-    el.addEventListener('scroll', fadeInWhenInViewport);
+  var tagTarget = (0, _util.get)('ul', card);
+  tags.forEach(function (tag) {
+    var tagEl = document.createElement('li');
+    tagTarget.appendChild(tagEl);
+    tagEl.textContent = tag;
+  });
+  addBookMarkListener(card);
+  addAnswerListener(card);
+  addFadeInListener(main);
+  fadeInWhenInViewport(card);
+  main.addEventListener('load', function () {
+    return fadeInWhenInViewport(card);
+  });
+  main.addEventListener('scroll', function () {
+    return fadeInWhenInViewport(card);
   });
 }
-},{"./util":"src/js/util.js","../../data/content.json":"data/content.json"}],"src/js/darkmode.js":[function(require,module,exports) {
+
+function addAnswerListener(element) {
+  var buttonAnswer = element.querySelector('.card__button--answer');
+  var answer = element.querySelector('.card__answer');
+  buttonAnswer.addEventListener('click', function () {
+    answer.classList.toggle('d-none');
+
+    if (buttonAnswer.textContent === 'Show answer') {
+      buttonAnswer.textContent = 'Hide answer';
+    } else {
+      buttonAnswer.textContent = 'Show answer';
+    }
+  });
+}
+
+function addBookMarkListener(element) {
+  var bookmark = element.querySelector('.card__bookmark');
+  bookmark.addEventListener('click', function () {
+    return toggleBookmarkActive(bookmark);
+  });
+} // bookmark toggle
+
+
+function toggleBookmarkActive(element) {
+  element.classList.toggle('card__bookmark--active');
+  element.classList.toggle('card__bookmark--inactive');
+}
+
+function addFadeInListener(card) {
+  card.addEventListener('load', function () {
+    return fadeInWhenInViewport(card);
+  });
+  card.addEventListener('scroll', function () {
+    return fadeInWhenInViewport(card);
+  });
+}
+
+function fadeInWhenInViewport(card) {
+  if ((0, _util.isElementInViewport)(card)) {
+    card.classList.add('card--fade-in');
+  } else {
+    card.classList.remove('card--fade-in');
+  }
+}
+},{"./util":"src/js/util.js","../../data/content.json":"data/content.json"}],"src/js/create.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initCreate = initCreate;
+
+var _util = require("./util");
+
+function initCreate() {
+  var main = (0, _util.get)('main');
+  main.className = 'p-15 page--create';
+  main.innerHTML =
+  /*html*/
+  "    <form action=\"\" class=\"form\">\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"question\" class=\"form__label\">Question</label>\n    <textarea\n      name=\"question\"\n      id=\"question\"\n      cols=\"30\"\n      rows=\"10\"\n      placeholder=\"What do you want to ask?\"\n      class=\"form__textarea p-10\"\n    ></textarea>\n  </div>\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"answer\" class=\"form__label\">Answer</label>\n    <textarea\n      name=\"answer\"\n      id=\"answer\"\n      cols=\"30\"\n      rows=\"10\"\n      placeholder=\"What's the answer?\"\n      class=\"form__textarea p-10\"\n    ></textarea>\n  </div>\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"tags\" class=\"form__label\">Tags</label>\n    <input\n      id=\"tags\"\n      type=\"text\"\n      placeholder=\"tag1,tag2,tag3\"\n      class=\"form__input--text p-10\"\n    />\n  </div>\n  <button class=\"form__button p-10 mb-40\">Submit</button>\n</form>\n";
+}
+},{"./util":"src/js/util.js"}],"src/js/profile.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initProfile = initProfile;
+
+var _util = require("./util");
+
+function initProfile() {
+  var main = (0, _util.get)('main');
+  main.className = 'profile p-15 d-flex-wrap page--profile';
+  main.innerHTML =
+  /*html*/
+  "<img\nsrc=\"https://source.unsplash.com/collection/1953210/200x200\"\nalt=\"Profile picture\"\nclass=\"profile__picture mw-50\"\n/>\n<h2 class=\"profile__user-name\">karstenlenz123</h2>\n<p>\nLorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur\nhic totam dolores voluptas eligendi magnam debitis possimus laboriosam\nvel repellendus odio, maxime molestiae id consequuntur exercitationem\neveniet reiciendis pariatur autem?\n</p>\n<div class=\"w-100\">\n<h2>Skills</h2>\n<ul class=\"p-0 d-flex-wrap\">\n  <li class>Skill1</li>\n  <li class>Skill2</li>\n  <li class>Skill3</li>\n  <li class>Skill4</li>\n</ul>\n</div>\n<button class=\"p-10 mb-40 darkmode\">Dark Mode</button>\n<button class=\"p-10 mb-40\">Logout</button>\n";
+}
+},{"./util":"src/js/util.js"}],"src/js/form.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initForm = initForm;
+
+var _util = require("./util");
+
+var _card = require("./card");
+
+function initForm() {
+  // get elements
+  var form = (0, _util.get)('.form'); // add event listener
+
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var question = form.question,
+        answer = form.answer,
+        tags = form.tags;
+
+    _card.cardContent.push({
+      question: question.value,
+      answer: answer.value,
+      tags: tags.value.split(',').map(function (tag) {
+        return tag.trim();
+      })
+    });
+
+    console.log('card created');
+    form.reset();
+  });
+}
+},{"./util":"src/js/util.js","./card":"src/js/card.js"}],"src/js/navigation.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.render = render;
+exports.initializeNav = initializeNav;
+
+var _index = require("./index");
+
+var _util = require("./util");
+
+var _card = require("./card");
+
+var _create = require("./create");
+
+var _profile = require("./profile");
+
+var _form = require("./form");
+
+var headline = (0, _util.get)('h1'); // Pages
+// Navigation links
+
+var navBookmarks = (0, _util.get)('[data-js="navBookmarks"');
+var navIndex = (0, _util.get)('[data-js="navIndex"');
+var navCreate = (0, _util.get)('[data-js="navCreate"');
+var navProfile = (0, _util.get)('[data-js="navProfile"');
+var iconsFooter = (0, _util.getAll)('.footer__icon');
+var main = (0, _util.get)('main'); // export function showPage(pageName, headline, icon) {
+//   return () => {
+//     hideAllPages()
+//     pageName.classList.remove('d-none')
+//     changeHeadline(headline)
+//     iconsFooter.forEach((el) => el.classList.remove('footer__icon--active'))
+//     icon.querySelector('.footer__icon').classList.add('footer__icon--active')
+//     state.pageName = pageName
+//     state.headline = headline
+//     state.icon = icon
+//     history.pushState(null, null, `${headline}.html`)
+//     console.log(state)
+//   }
+// }
+
+function render(pageName, icon) {
+  main.innerHTML = '';
+  iconsFooter.forEach(function (el) {
+    return el.classList.remove('footer__icon--active');
+  });
+  icon.querySelector('.footer__icon').classList.add('footer__icon--active');
+
+  switch (pageName) {
+    case 'pageIndex':
+      (0, _card.createCards)();
+      changeHeadline('Quiz-App');
+      break;
+
+    case 'pageBookmarks':
+      (0, _card.createCards)();
+      changeHeadline('Bookmarks');
+      break;
+
+    case 'pageCreate':
+      (0, _create.initCreate)();
+      (0, _form.initForm)();
+      changeHeadline('Create');
+      break;
+
+    case 'pageProfile':
+      (0, _profile.initProfile)();
+      changeHeadline('Profile');
+      break;
+  }
+
+  _index.state.pageName = pageName;
+  _index.state.headline = headline;
+  _index.state.icon = icon;
+  history.pushState(null, null, "".concat(pageName, ".html"));
+}
+
+function hideAllPages() {
+  var main = (0, _util.get)('main');
+  main.innerHTML = '';
+}
+
+function changeHeadline(string) {
+  headline.textContent = string;
+} // export function initializeNav() {
+//   // Add Event Listeners
+//   navIndex.addEventListener('click', showPage(pageIndex, 'Quiz-App', navIndex))
+//   navBookmarks.addEventListener(
+//     'click',
+//     showPage(pageBookmarks, 'Bookmarks', navBookmarks)
+//   )
+//   navCreate.addEventListener('click', showPage(pageCreate, 'Create', navCreate))
+//   navProfile.addEventListener(
+//     'click',
+//     showPage(pageProfile, 'Profile', navProfile)
+//   )
+
+
+function initializeNav() {
+  // Add Event Listeners
+  navIndex.addEventListener('click', function () {
+    return render('pageIndex', navIndex);
+  });
+  navBookmarks.addEventListener('click', function () {
+    return render('pageBookmarks', navBookmarks);
+  });
+  navCreate.addEventListener('click', function () {
+    return render('pageCreate', navCreate);
+  });
+  navProfile.addEventListener('click', function () {
+    return render('pageProfile', navProfile);
+  });
+}
+},{"./index":"src/js/index.js","./util":"src/js/util.js","./card":"src/js/card.js","./create":"src/js/create.js","./profile":"src/js/profile.js","./form":"src/js/form.js"}],"src/js/darkmode.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -370,26 +481,6 @@ function initializeDarkMode() {
     }
   });
 }
-},{"./util":"src/js/util.js"}],"src/js/form.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.initializeForm = initializeForm;
-
-var _util = require("./util");
-
-function initializeForm() {
-  // get elements
-  var inputsForm = (0, _util.getAll)('textarea,input');
-  var form = (0, _util.get)('.form'); // add event listener
-
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    form.reset();
-  });
-}
 },{"./util":"src/js/util.js"}],"src/js/index.js":[function(require,module,exports) {
 "use strict";
 
@@ -407,30 +498,24 @@ var _darkmode = require("./darkmode");
 var _form = require("./form");
 
 (0, _card.createCards)();
-(0, _navigation.initializeNav)();
-(0, _card.initializeCard)();
-(0, _darkmode.initializeDarkMode)();
-(0, _form.initializeForm)();
+(0, _navigation.initializeNav)(); //initializeDarkMode()
+//initializeForm()
+
 var state = {
   pageName: '',
   headline: '',
   icon: ''
-};
+}; // function timeMachine(state) {
+//   showPage(state.pageName, state.headline, state.icon)
+// }
+
 exports.state = state;
-
-function timeMachine(state) {
-  (0, _navigation.showPage)(state.pageName, state.headline, state.icon);
-}
-
-history.replaceState(state, null, '');
-
-window.onpopstate = function (event) {
-  if (event.state) {
-    exports.state = state = event.state;
-  }
-
-  timeMachine(state); // See example render function in summary below
-};
+history.replaceState(state, null, ''); // window.onpopstate = function (event) {
+//   if (event.state) {
+//     state = event.state
+//   }
+//   timeMachine(state) // See example render function in summary below
+// }
 },{"./navigation":"src/js/navigation.js","./card":"src/js/card.js","./darkmode":"src/js/darkmode.js","./form":"src/js/form.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -459,7 +544,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63706" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53095" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

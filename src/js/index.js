@@ -5,9 +5,8 @@ import { initializeForm } from './form'
 
 createCards()
 initializeNav()
-initializeCard()
-initializeDarkMode()
-initializeForm()
+//initializeDarkMode()
+//initializeForm()
 
 export let state = {
   pageName: '',
@@ -15,14 +14,14 @@ export let state = {
   icon: '',
 }
 
-function timeMachine(state) {
-  showPage(state.pageName, state.headline, state.icon)
-}
+// function timeMachine(state) {
+//   showPage(state.pageName, state.headline, state.icon)
+// }
 
 history.replaceState(state, null, '')
-window.onpopstate = function (event) {
-  if (event.state) {
-    state = event.state
-  }
-  timeMachine(state) // See example render function in summary below
-}
+// window.onpopstate = function (event) {
+//   if (event.state) {
+//     state = event.state
+//   }
+//   timeMachine(state) // See example render function in summary below
+// }
