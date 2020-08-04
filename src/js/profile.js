@@ -1,4 +1,5 @@
 import { get } from './util'
+import { initDarkMode } from './darkmode'
 
 export function initProfile() {
   const main = get('main')
@@ -27,4 +28,6 @@ eveniet reiciendis pariatur autem?
 <button class="p-10 mb-40 darkmode">Dark Mode</button>
 <button class="p-10 mb-40">Logout</button>
 `
+
+  initDarkMode()
 }

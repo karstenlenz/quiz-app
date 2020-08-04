@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/karstenlenz/quiz-app#readme",
   "dependencies": {},
-  "devDependencies": {
+  "devDependencies": {  
     "@babel/core": "^7.10.5",
     "parcel-bundler": "^1.12.4",
     "sass": "^1.26.10"

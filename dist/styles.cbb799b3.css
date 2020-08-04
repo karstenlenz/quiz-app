@@ -6,6 +6,10 @@
   margin: 20px;
 }
 
+.mb-15 {
+  margin-bottom: 15px;
+}
+
 .mb-30 {
   margin-bottom: 30px;
 }
@@ -178,14 +182,12 @@ li {
   height: 48px;
   width: 48px;
   background-color: transparent;
+  color: grey;
+  fill: transparent;
 }
 .card__bookmark--active {
   color: #111122;
   fill: #dc453d;
-}
-.card__bookmark--inactive {
-  color: grey;
-  fill: transparent;
 }
 
 .card:nth-of-type(odd) {

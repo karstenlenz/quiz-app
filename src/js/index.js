@@ -1,27 +1,26 @@
-import { initializeNav, showPage } from './navigation'
-import { initializeCard, createCards } from './card'
+import { initializeNav, showPage, render } from './navigation'
+import { initializeCard, createCards, cardContent } from './card'
 import { initializeDarkMode } from './darkmode'
 import { initializeForm } from './form'
+import { Filter } from './filter'
 
-createCards()
+Filter()
+createCards(cardContent)
 initializeNav()
-//initializeDarkMode()
+
 //initializeForm()
 
-export let state = {
-  pageName: '',
-  headline: '',
-  icon: '',
+history.replaceState(null, null, '')
+window.onpopstate = function (event) {
+  if (event.state != null) {
+    let state = { pageName: '', icon: '' }
+    state.pageName = event.state.pageName
+    state.icon = event.state.icon
+    render(state.pageName, state.icon)
+  }
 }
 
-// function timeMachine(state) {
-//   showPage(state.pageName, state.headline, state.icon)
-// }
-
-history.replaceState(state, null, '')
-// window.onpopstate = function (event) {
-//   if (event.state) {
-//     state = event.state
-//   }
-//   timeMachine(state) // See example render function in summary below
+// export function timeMachine(state) {
+//   console.log('state ' + state.pageName + ' ' + state.icon)
+//   render(state.pageName, state.icon)
 // }

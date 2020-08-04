@@ -1,4 +1,5 @@
 import { get } from './util'
+import { initForm } from './form'
 
 export function initCreate() {
   const main = get('main')
@@ -38,4 +39,6 @@ export function initCreate() {
   <button class="form__button p-10 mb-40">Submit</button>
 </form>
 `
+
+  initForm()
 }

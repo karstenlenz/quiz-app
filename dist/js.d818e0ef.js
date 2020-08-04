@@ -126,8 +126,11 @@ Object.defineProperty(exports, "__esModule", {
 exports.get = get;
 exports.getAll = getAll;
 exports.isElementInViewport = isElementInViewport;
+exports.createElement = createElement;
+exports.main = void 0;
+var main = get('main');
+exports.main = main;
 
-// get functions
 function get(selector) {
   var target = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
   return target.querySelector(selector);
@@ -144,32 +147,43 @@ function isElementInViewport(element) {
     rect.top + 150 <= (window.innerHeight || document.documentElement.clientHeight)
   );
 }
+
+function createElement(type, className) {
+  var target = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : main;
+  var el = document.createElement(type);
+  el.className = className;
+  target.appendChild(el);
+  return el;
+}
 },{}],"data/content.json":[function(require,module,exports) {
 module.exports = {
   "cardContent": [{
     "question": "1 What is the lorem ipsum, dolor sit?",
     "answer": "1 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
-    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"],
+    "isBookmarked": true
   }, {
     "question": "2 What is the lorem ipsum, dolor sit?",
     "answer": "2 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
-    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+    "tags": ["JavaScript", "lorem", "ipsum"]
   }, {
     "question": "3 What is the lorem ipsum, dolor sit?",
     "answer": "3 The answer is Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
-    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+    "tags": ["HTML", "CSS", "JavaScript"],
+    "isBookmarked": true
   }, {
     "question": "4 What is the lorem ipsum, dolor sit?",
     "answer": "4 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
-    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+    "tags": ["HTML", "CSS", "lorem", "ipsum"]
   }, {
     "question": "5 What is the lorem ipsum, dolor sit?",
     "answer": "5 The answer is  Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
-    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+    "tags": ["HTML", "JavaScript", "ipsum"]
   }, {
     "question": "6 What is the lorem ipsum, dolor sit?",
     "answer": "6 The answer is Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia minus praesentium adipisci iste numquam ipsum iusto eveniet eos earum suscipit enim facere in a tempora totam facilis ut, eum assumenda.",
-    "tags": ["HTML", "CSS", "JavaScript", "lorem", "ipsum"]
+    "tags": ["ipsum"],
+    "isBookmarked": true
   }]
 };
 },{}],"src/js/card.js":[function(require,module,exports) {
@@ -179,6 +193,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createCards = createCards;
+exports.createBookmarkedCards = createBookmarkedCards;
+exports.createCard = createCard;
 exports.cardContent = void 0;
 
 var _util = require("./util");
@@ -194,20 +210,28 @@ var cardContent = data.cardContent;
 exports.cardContent = cardContent;
 var main = (0, _util.get)('main');
 
-function createCards() {
-  cardContent.forEach(createCard);
+function createCards(content) {
+  content.forEach(createCard);
+}
+
+function createBookmarkedCards() {
+  cardContent.filter(function (card) {
+    return card.isBookmarked;
+  }).forEach(createCard);
 }
 
 function createCard(_ref) {
   var question = _ref.question,
       answer = _ref.answer,
       _ref$tags = _ref.tags,
-      tags = _ref$tags === void 0 ? [] : _ref$tags;
+      tags = _ref$tags === void 0 ? [] : _ref$tags,
+      _ref$isBookmarked = _ref.isBookmarked,
+      isBookmarked = _ref$isBookmarked === void 0 ? false : _ref$isBookmarked;
   var card = document.createElement('section');
   card.className = 'card p-15 mb-40';
   card.innerHTML =
   /*html*/
-  "\n  <a href=\"#\"\n  ><svg\n    class=\"card__bookmark card__bookmark--active\"\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"feather feather-bookmark\"\n  >\n    <path d=\"M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"></path>\n  </svg>\n</a>\n<h2>Question</h2>\n<p>\n".concat(question, "\n</p>\n<button class=\"card__button--answer p-10\">Show answer</button>\n<p class =\"card__answer d-none\">").concat(answer, "</p>\n<ul class=\"p-0 d-flex-wrap\">\n\n</ul>");
+  "\n<svg\n    class=\"card__bookmark ".concat(isBookmarked ? 'card__bookmark--active' : '', "\"\n    xmlns=\"http://www.w3.org/2000/svg\"\n    width=\"24\"\n    height=\"24\"\n    viewBox=\"0 0 24 24\"\n    fill=\"none\"\n    stroke=\"currentColor\"\n    stroke-width=\"2\"\n    stroke-linecap=\"round\"\n    stroke-linejoin=\"round\"\n    class=\"feather feather-bookmark\"\n  >\n    <path d=\"M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z\"></path>\n  </svg>\n\n<h2>Question</h2>\n<p>\n").concat(question, "\n</p>\n<button class=\"card__button--answer p-10\">Show answer</button>\n<p class =\"card__answer d-none\">").concat(answer, "</p>\n<ul class=\"p-0 d-flex-wrap\">\n\n</ul>");
   main.appendChild(card); //create Tags
 
   var tagTarget = (0, _util.get)('ul', card);
@@ -252,7 +276,6 @@ function addBookMarkListener(element) {
 
 function toggleBookmarkActive(element) {
   element.classList.toggle('card__bookmark--active');
-  element.classList.toggle('card__bookmark--inactive');
 }
 
 function addFadeInListener(card) {
@@ -271,41 +294,7 @@ function fadeInWhenInViewport(card) {
     card.classList.remove('card--fade-in');
   }
 }
-},{"./util":"src/js/util.js","../../data/content.json":"data/content.json"}],"src/js/create.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.initCreate = initCreate;
-
-var _util = require("./util");
-
-function initCreate() {
-  var main = (0, _util.get)('main');
-  main.className = 'p-15 page--create';
-  main.innerHTML =
-  /*html*/
-  "    <form action=\"\" class=\"form\">\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"question\" class=\"form__label\">Question</label>\n    <textarea\n      name=\"question\"\n      id=\"question\"\n      cols=\"30\"\n      rows=\"10\"\n      placeholder=\"What do you want to ask?\"\n      class=\"form__textarea p-10\"\n    ></textarea>\n  </div>\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"answer\" class=\"form__label\">Answer</label>\n    <textarea\n      name=\"answer\"\n      id=\"answer\"\n      cols=\"30\"\n      rows=\"10\"\n      placeholder=\"What's the answer?\"\n      class=\"form__textarea p-10\"\n    ></textarea>\n  </div>\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"tags\" class=\"form__label\">Tags</label>\n    <input\n      id=\"tags\"\n      type=\"text\"\n      placeholder=\"tag1,tag2,tag3\"\n      class=\"form__input--text p-10\"\n    />\n  </div>\n  <button class=\"form__button p-10 mb-40\">Submit</button>\n</form>\n";
-}
-},{"./util":"src/js/util.js"}],"src/js/profile.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.initProfile = initProfile;
-
-var _util = require("./util");
-
-function initProfile() {
-  var main = (0, _util.get)('main');
-  main.className = 'profile p-15 d-flex-wrap page--profile';
-  main.innerHTML =
-  /*html*/
-  "<img\nsrc=\"https://source.unsplash.com/collection/1953210/200x200\"\nalt=\"Profile picture\"\nclass=\"profile__picture mw-50\"\n/>\n<h2 class=\"profile__user-name\">karstenlenz123</h2>\n<p>\nLorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur\nhic totam dolores voluptas eligendi magnam debitis possimus laboriosam\nvel repellendus odio, maxime molestiae id consequuntur exercitationem\neveniet reiciendis pariatur autem?\n</p>\n<div class=\"w-100\">\n<h2>Skills</h2>\n<ul class=\"p-0 d-flex-wrap\">\n  <li class>Skill1</li>\n  <li class>Skill2</li>\n  <li class>Skill3</li>\n  <li class>Skill4</li>\n</ul>\n</div>\n<button class=\"p-10 mb-40 darkmode\">Dark Mode</button>\n<button class=\"p-10 mb-40\">Logout</button>\n";
-}
-},{"./util":"src/js/util.js"}],"src/js/form.js":[function(require,module,exports) {
+},{"./util":"src/js/util.js","../../data/content.json":"data/content.json"}],"src/js/form.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -339,14 +328,132 @@ function initForm() {
     form.reset();
   });
 }
-},{"./util":"src/js/util.js","./card":"src/js/card.js"}],"src/js/navigation.js":[function(require,module,exports) {
+},{"./util":"src/js/util.js","./card":"src/js/card.js"}],"src/js/create.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initCreate = initCreate;
+
+var _util = require("./util");
+
+var _form = require("./form");
+
+function initCreate() {
+  var main = (0, _util.get)('main');
+  main.className = 'p-15 page--create';
+  main.innerHTML =
+  /*html*/
+  "    <form action=\"\" class=\"form\">\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"question\" class=\"form__label\">Question</label>\n    <textarea\n      name=\"question\"\n      id=\"question\"\n      cols=\"30\"\n      rows=\"10\"\n      placeholder=\"What do you want to ask?\"\n      class=\"form__textarea p-10\"\n    ></textarea>\n  </div>\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"answer\" class=\"form__label\">Answer</label>\n    <textarea\n      name=\"answer\"\n      id=\"answer\"\n      cols=\"30\"\n      rows=\"10\"\n      placeholder=\"What's the answer?\"\n      class=\"form__textarea p-10\"\n    ></textarea>\n  </div>\n  <div class=\"form__input-wrapper d-flex-wrap mb-40\">\n    <label for=\"tags\" class=\"form__label\">Tags</label>\n    <input\n      id=\"tags\"\n      type=\"text\"\n      placeholder=\"tag1,tag2,tag3\"\n      class=\"form__input--text p-10\"\n    />\n  </div>\n  <button class=\"form__button p-10 mb-40\">Submit</button>\n</form>\n";
+  (0, _form.initForm)();
+}
+},{"./util":"src/js/util.js","./form":"src/js/form.js"}],"src/js/darkmode.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initDarkMode = initDarkMode;
+
+var _util = require("./util");
+
+function initDarkMode() {
+  // get elements
+  var buttonDark = (0, _util.get)('.darkmode');
+  var styleSheet = (0, _util.get)('.stylesheet');
+  var styleSheetURL = styleSheet.href; // add event listener
+
+  buttonDark.addEventListener('click', function () {
+    if (buttonDark.textContent === 'Dark Mode') {
+      styleSheet.href = 'dark.css';
+      buttonDark.textContent = 'Light Mode';
+    } else {
+      styleSheet.href = styleSheetURL;
+      buttonDark.textContent = 'Dark Mode';
+    }
+  });
+}
+},{"./util":"src/js/util.js"}],"src/js/profile.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.initProfile = initProfile;
+
+var _util = require("./util");
+
+var _darkmode = require("./darkmode");
+
+function initProfile() {
+  var main = (0, _util.get)('main');
+  main.className = 'profile p-15 d-flex-wrap page--profile';
+  main.innerHTML =
+  /*html*/
+  "<img\nsrc=\"https://source.unsplash.com/collection/1953210/200x200\"\nalt=\"Profile picture\"\nclass=\"profile__picture mw-50\"\n/>\n<h2 class=\"profile__user-name\">karstenlenz123</h2>\n<p>\nLorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur\nhic totam dolores voluptas eligendi magnam debitis possimus laboriosam\nvel repellendus odio, maxime molestiae id consequuntur exercitationem\neveniet reiciendis pariatur autem?\n</p>\n<div class=\"w-100\">\n<h2>Skills</h2>\n<ul class=\"p-0 d-flex-wrap\">\n  <li class>Skill1</li>\n  <li class>Skill2</li>\n  <li class>Skill3</li>\n  <li class>Skill4</li>\n</ul>\n</div>\n<button class=\"p-10 mb-40 darkmode\">Dark Mode</button>\n<button class=\"p-10 mb-40\">Logout</button>\n";
+  (0, _darkmode.initDarkMode)();
+}
+},{"./util":"src/js/util.js","./darkmode":"src/js/darkmode.js"}],"src/js/filter.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Filter = Filter;
+exports.filterCards = filterCards;
+
+var _util = require("./util");
+
+var _navigation = require("./navigation");
+
+var _card = require("./card");
+
+function Filter() {
+  var form = (0, _util.createElement)('form');
+  var input = (0, _util.createElement)('input', 'filter__input p-10 mb-15');
+  input.placeholder = 'Filter nach Tags, z.B. CSS';
+  form.appendChild(input);
+  var button = (0, _util.createElement)('button', 'filter__button p-10 mb-30');
+  button.textContent = 'Filtern';
+  form.appendChild(button);
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    var keyword = input.value;
+    filterCards(keyword);
+    console.log(keyword);
+    form.reset();
+  });
+}
+
+function filterCards(keyword) {
+  if (keyword !== '') {
+    (0, _navigation.clearContent)();
+    Filter();
+
+    var filteredContent = _card.cardContent.filter(function (card) {
+      return card.tags.includes(keyword.trim());
+    });
+
+    console.log('filteredcontent = ' + filteredContent);
+    filteredContent.forEach(_card.createCard);
+
+    if (filteredContent.length === 0) {
+      var errorMessage = (0, _util.createElement)('h2', '', _util.main);
+      errorMessage.textContent = "Es gibt keine Karte mit dem Tag \"".concat(keyword, "\". Tipp: Achte auf Gro\xDF- und Kleinschreibung und Leerzeichen.");
+    }
+  }
+}
+},{"./util":"src/js/util.js","./navigation":"src/js/navigation.js","./card":"src/js/card.js"}],"src/js/navigation.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.render = render;
+exports.clearContent = clearContent;
 exports.initializeNav = initializeNav;
+exports.main = void 0;
 
 var _index = require("./index");
 
@@ -360,6 +467,8 @@ var _profile = require("./profile");
 
 var _form = require("./form");
 
+var _filter = require("./filter");
+
 var headline = (0, _util.get)('h1'); // Pages
 // Navigation links
 
@@ -368,23 +477,12 @@ var navIndex = (0, _util.get)('[data-js="navIndex"');
 var navCreate = (0, _util.get)('[data-js="navCreate"');
 var navProfile = (0, _util.get)('[data-js="navProfile"');
 var iconsFooter = (0, _util.getAll)('.footer__icon');
-var main = (0, _util.get)('main'); // export function showPage(pageName, headline, icon) {
-//   return () => {
-//     hideAllPages()
-//     pageName.classList.remove('d-none')
-//     changeHeadline(headline)
-//     iconsFooter.forEach((el) => el.classList.remove('footer__icon--active'))
-//     icon.querySelector('.footer__icon').classList.add('footer__icon--active')
-//     state.pageName = pageName
-//     state.headline = headline
-//     state.icon = icon
-//     history.pushState(null, null, `${headline}.html`)
-//     console.log(state)
-//   }
-// }
+var main = (0, _util.get)('main');
+exports.main = main;
 
-function render(pageName, icon) {
-  main.innerHTML = '';
+function render(pageName) {
+  var icon = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : navIndex;
+  clearContent();
   iconsFooter.forEach(function (el) {
     return el.classList.remove('footer__icon--active');
   });
@@ -392,18 +490,18 @@ function render(pageName, icon) {
 
   switch (pageName) {
     case 'pageIndex':
-      (0, _card.createCards)();
+      (0, _filter.Filter)();
+      (0, _card.createCards)(_card.cardContent);
       changeHeadline('Quiz-App');
       break;
 
     case 'pageBookmarks':
-      (0, _card.createCards)();
+      (0, _card.createBookmarkedCards)();
       changeHeadline('Bookmarks');
       break;
 
     case 'pageCreate':
       (0, _create.initCreate)();
-      (0, _form.initForm)();
       changeHeadline('Create');
       break;
 
@@ -413,32 +511,20 @@ function render(pageName, icon) {
       break;
   }
 
-  _index.state.pageName = pageName;
-  _index.state.headline = headline;
-  _index.state.icon = icon;
-  history.pushState(null, null, "".concat(pageName, ".html"));
+  var historyState = {
+    pageName: pageName
+  };
+  window.history.pushState(historyState, null, "".concat(pageName, ".html"));
 }
 
-function hideAllPages() {
+function clearContent() {
   var main = (0, _util.get)('main');
   main.innerHTML = '';
 }
 
 function changeHeadline(string) {
   headline.textContent = string;
-} // export function initializeNav() {
-//   // Add Event Listeners
-//   navIndex.addEventListener('click', showPage(pageIndex, 'Quiz-App', navIndex))
-//   navBookmarks.addEventListener(
-//     'click',
-//     showPage(pageBookmarks, 'Bookmarks', navBookmarks)
-//   )
-//   navCreate.addEventListener('click', showPage(pageCreate, 'Create', navCreate))
-//   navProfile.addEventListener(
-//     'click',
-//     showPage(pageProfile, 'Profile', navProfile)
-//   )
-
+}
 
 function initializeNav() {
   // Add Event Listeners
@@ -455,39 +541,8 @@ function initializeNav() {
     return render('pageProfile', navProfile);
   });
 }
-},{"./index":"src/js/index.js","./util":"src/js/util.js","./card":"src/js/card.js","./create":"src/js/create.js","./profile":"src/js/profile.js","./form":"src/js/form.js"}],"src/js/darkmode.js":[function(require,module,exports) {
+},{"./index":"src/js/index.js","./util":"src/js/util.js","./card":"src/js/card.js","./create":"src/js/create.js","./profile":"src/js/profile.js","./form":"src/js/form.js","./filter":"src/js/filter.js"}],"src/js/index.js":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.initializeDarkMode = initializeDarkMode;
-
-var _util = require("./util");
-
-function initializeDarkMode() {
-  // get elements
-  var buttonDark = (0, _util.get)('.darkmode');
-  var styleSheet = (0, _util.get)('.stylesheet');
-  var styleSheetURL = styleSheet.href; // add event listener
-
-  buttonDark.addEventListener('click', function () {
-    if (buttonDark.textContent === 'Dark Mode') {
-      styleSheet.href = 'dark.css';
-      buttonDark.textContent = 'Light Mode';
-    } else {
-      styleSheet.href = styleSheetURL;
-      buttonDark.textContent = 'Dark Mode';
-    }
-  });
-}
-},{"./util":"src/js/util.js"}],"src/js/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.state = void 0;
 
 var _navigation = require("./navigation");
 
@@ -497,26 +552,29 @@ var _darkmode = require("./darkmode");
 
 var _form = require("./form");
 
-(0, _card.createCards)();
-(0, _navigation.initializeNav)(); //initializeDarkMode()
-//initializeForm()
+var _filter = require("./filter");
 
-var state = {
-  pageName: '',
-  headline: '',
-  icon: ''
-}; // function timeMachine(state) {
-//   showPage(state.pageName, state.headline, state.icon)
-// }
+(0, _filter.Filter)();
+(0, _card.createCards)(_card.cardContent);
+(0, _navigation.initializeNav)(); //initializeForm()
 
-exports.state = state;
-history.replaceState(state, null, ''); // window.onpopstate = function (event) {
-//   if (event.state) {
-//     state = event.state
-//   }
-//   timeMachine(state) // See example render function in summary below
+history.replaceState(null, null, '');
+
+window.onpopstate = function (event) {
+  if (event.state != null) {
+    var state = {
+      pageName: '',
+      icon: ''
+    };
+    state.pageName = event.state.pageName;
+    state.icon = event.state.icon;
+    (0, _navigation.render)(state.pageName, state.icon);
+  }
+}; // export function timeMachine(state) {
+//   console.log('state ' + state.pageName + ' ' + state.icon)
+//   render(state.pageName, state.icon)
 // }
-},{"./navigation":"src/js/navigation.js","./card":"src/js/card.js","./darkmode":"src/js/darkmode.js","./form":"src/js/form.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"./navigation":"src/js/navigation.js","./card":"src/js/card.js","./darkmode":"src/js/darkmode.js","./form":"src/js/form.js","./filter":"src/js/filter.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -544,7 +602,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53095" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53573" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -6,17 +6,25 @@ export const cardContent = data.cardContent
 
 const main = get('main')
 
-export function createCards() {
-  cardContent.forEach(createCard)
+export function createCards(content) {
+  content.forEach(createCard)
 }
 
-function createCard({ question, answer, tags = [] }) {
+export function createBookmarkedCards() {
+  cardContent.filter((card) => card.isBookmarked).forEach(createCard)
+}
+
+export function createCard({
+  question,
+  answer,
+  tags = [],
+  isBookmarked = false,
+}) {
   const card = document.createElement('section')
   card.className = 'card p-15 mb-40'
   card.innerHTML = /*html*/ `
-  <a href="#"
-  ><svg
-    class="card__bookmark card__bookmark--active"
+<svg
+    class="card__bookmark ${isBookmarked ? 'card__bookmark--active' : ''}"
     xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
@@ -30,7 +38,7 @@ function createCard({ question, answer, tags = [] }) {
   >
     <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
   </svg>
-</a>
+
 <h2>Question</h2>
 <p>
 ${question}
@@ -79,7 +87,6 @@ function addBookMarkListener(element) {
 // bookmark toggle
 function toggleBookmarkActive(element) {
   element.classList.toggle('card__bookmark--active')
-  element.classList.toggle('card__bookmark--inactive')
 }
 
 function addFadeInListener(card) {

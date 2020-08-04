@@ -1,4 +1,5 @@
-// get functions
+export const main = get('main')
+
 export function get(selector, target = document) {
   return target.querySelector(selector)
 }
@@ -14,4 +15,11 @@ export function isElementInViewport(element) {
     rect.top + 150 <=
     (window.innerHeight || document.documentElement.clientHeight)
   )
+}
+
+export function createElement(type, className, target = main) {
+  const el = document.createElement(type)
+  el.className = className
+  target.appendChild(el)
+  return el
 }

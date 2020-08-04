@@ -1,6 +1,6 @@
 import { get, getAll } from './util'
 
-export function initializeDarkMode() {
+export function initDarkMode() {
   // get elements
   const buttonDark = get('.darkmode')
   const styleSheet = get('.stylesheet')

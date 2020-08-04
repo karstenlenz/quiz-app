@@ -15,15 +15,12 @@
     height: 48px;
     width: 48px;
     background-color: transparent;
+    color: grey;
+    fill: transparent;
 
     &--active {
       color: #111122;
       fill: #dc453d;
-    }
-
-    &--inactive {
-      color: grey;
-      fill: transparent;
     }
   }
 }
